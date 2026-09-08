@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍴 Foodies Corner — Taste the World🌍</title>
+<style>
+  :root {
+    --brand: #e63946;
+    --brand-dark: #d62828;
+    --bg: #fffaf0;
+    --ink: #2c2c2c;
+    --muted: #6b6b6b;
+    --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible {
+    outline: 3px solid var(--brand);
+    outline-offset: 2px;
+  }
+
+  header {
+    background: var(--brand);
+    color: #fff;
+    text-align: center;
+    padding: 18px 16px;
+    font-size: clamp(20px, 4vw, 26px);
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  nav {
+    background: #f7f2ea;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 24px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eee1d0;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--brand);
+    font-weight: 600;
+    padding: 6px 4px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  nav a:hover,
+  nav a.active {
+    color: var(--brand-dark);
+    border-bottom-color: var(--brand-dark);
+  }
+
+  section {
+    display: none;
+    padding: clamp(24px, 6vw, 48px) 20px;
+  }
+
+  section.active {
+    display: block;
+    animation: fadeIn 0.25s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Login page */
+  #login-page {
+    background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+      url('login-bg.jpg')
+      no-repeat center center / cover;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .login-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px 32px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    max-width: 340px;
+    text-align: center;
+  }
+
+  .login-container h2 {
+    color: var(--brand);
+    margin: 0 0 20px;
+  }
+
+  .input-box { margin-bottom: 18px; text-align: left; }
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #333;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: inherit;
+  }
+
+  input:focus, textarea:focus {
+    border-color: var(--brand);
+    outline: none;
+  }
+
+  .password-wrapper {
+    position: relative;
+  }
+
+  .password-wrapper input {
+    padding-right: 42px;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0;
+    padding: 4px 6px;
+    line-height: 1;
+  }
+
+  .input-box input:invalid:not(:placeholder-shown) {
+    border-color: #d62828;
+  }
+
+  .login-btn, button[type="submit"] {
+    width: 100%;
+    background: var(--brand);
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+  }
+
+  .login-btn:hover, button[type="submit"]:hover {
+    background: var(--brand-dark);
+  }
+
+  .login-btn:active, button[type="submit"]:active {
+    transform: scale(0.98);
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 46px);
+    color: var(--brand);
+    margin-bottom: 8px;
+  }
+
+  .hero p {
+    font-size: clamp(15px, 2.5vw, 19px);
+    color: var(--muted);
+    margin-top: 0;
+  }
+
+  .hero-image {
+    width: 100%;
+    max-width: 420px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+    margin: 24px 0 8px;
+  }
+
+  .hero-dish-name {
+    color: var(--brand-dark);
+    font-size: 20px;
+    margin: 16px 0 4px;
+  }
+
+  .hero-recipe {
+    max-width: 420px;
+    margin: 12px auto 0;
+    text-align: left;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    padding: 12px 16px;
+  }
+
+  .hero-recipe summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--brand);
+    list-style: none;
+    text-align: center;
+  }
+
+  .hero-recipe summary::-webkit-details-marker { display: none; }
+  .hero-recipe summary::after { content: " ▾"; }
+  .hero-recipe[open] summary::after { content: " ▴"; }
+
+  .hero-recipe p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-top: 10px;
+  }
+
+  h2 {
+    font-size: clamp(20px, 3vw, 26px);
+    margin: 40px 0 20px;
+  }
+
+  /* Recipe cards */
+  .recipe-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .recipe-card {
+    background: #fff;
+    padding: 18px;
+    border-radius: var(--radius);
+    width: 260px;
+    box-shadow: var(--card-shadow);
+    text-align: left;
+    transition: transform 0.15s ease;
+  }
+
+  .recipe-card:hover { transform: translateY(-4px); }
+
+  .recipe-card img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+  }
+
+  .recipe-card h3 {
+    margin: 14px 0 6px;
+    font-size: 17px;
+  }
+
+  .recipe-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .recipe-card details {
+    margin-top: 10px;
+    border-top: 1px solid #f0e6d8;
+    padding-top: 8px;
+  }
+
+  .recipe-card summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--brand);
+    font-size: 13px;
+    list-style: none;
+  }
+
+  .recipe-card summary::-webkit-details-marker { display: none; }
+
+  .recipe-card summary::after {
+    content: " ▾";
+  }
+
+  .recipe-card details[open] summary::after {
+    content: " ▴";
+  }
+
+  .recipe-card details p {
+    font-size: 13px;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  /* Suggestions form */
+  #suggestions {
+    max-width: 480px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  #suggestions textarea { resize: vertical; min-height: 110px; }
+  #suggestions form { display: flex; flex-direction: column; gap: 14px; }
+
+  .success-message {
+    color: #2a7a2a;
+    font-weight: 600;
+    margin-top: 16px;
+    display: none;
+  }
+
+  /* Contact */
+  .contact-info {
+    background: #fff;
+    max-width: 480px;
+    margin: 0 auto;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    padding: 32px;
+    line-height: 1.7;
+    font-size: 17px;
+  }
+
+  .contact-info h3 {
+    color: var(--brand);
+    margin: 18px 0 4px;
+    font-size: 16px;
+  }
+
+  .contact-info h3:first-child { margin-top: 0; }
+  .contact-info p { margin: 0; color: var(--muted); }
+
+  @media (max-width: 480px) {
+    .recipe-card { width: 100%; max-width: 320px; }
+    .hero-image { height: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<section id="login-page" class="active">
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="login-form" novalidate>
+      <div class="input-box">
+        <label for="username">Email</label>
+        <input
+          type="email"
+          id="username"
+          placeholder="Enter your email"
+          autocomplete="username"
+          required>
+      </div>
+      <div class="input-box">
+        <label for="password">Password</label>
+        <div class="password-wrapper">
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            minlength="8"
+            autocomplete="current-password"
+            required>
+          <button type="button" class="toggle-password" id="toggle-password" aria-label="Show password">👁</button>
+        </div>
+      </div>
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+  </div>
+</section>
+
+<!-- HEADER & NAV -->
+<header id="main-header" style="display:none;">🍴 Foodies Corner — Taste the World🌍</header>
+<nav id="main-nav" style="display:none;">
+  <a href="#" data-page="home" onclick="showPage('home', this)">Home</a>
+  <a href="#" data-page="suggestions" onclick="showPage('suggestions', this)">Suggestions</a>
+  <a href="#" data-page="recipes" onclick="showPage('recipes', this)">Recipes</a>
+  <a href="#" data-page="contact" onclick="showPage('contact', this)">Contact</a>
+  <a href="#" onclick="logout()">Logout</a>
+</nav>
+
+<!-- HOME PAGE -->
+<section id="home">
+  <div class="hero">
+    <h1>Welcome to Foodies Corner</h1>
+    <p>Your ultimate destination for delicious recipes &amp; food ideas 🍽️</p>
+    <img class="hero-image" src="biryani.png" alt="A plate of biryani">
+    <h3 class="hero-dish-name">Hyderabadi Chicken Biryani</h3>
+    <details class="hero-recipe">
+      <summary>View Recipe</summary>
+      <p><strong>Ingredients:</strong> Basmati rice, chicken, yogurt, fried onions, ginger-garlic paste, tomatoes, biryani masala, saffron milk, mint &amp; coriander, ghee.</p>
+      <p><strong>Steps:</strong> Marinate chicken in yogurt and spices for 30 minutes. Cook with onions and tomatoes into a rich gravy. Parboil rice separately with whole spices. Layer rice over the gravy, top with fried onions, mint, coriander, and saffron milk. Cover and cook on low heat (dum) for 20–25 minutes. Fluff gently and serve hot.</p>
+    </details>
+
+    <h2>Popular Recipes 🍲</h2>
+    <div class="recipe-grid">
+      <div class="recipe-card">
+        <img src="indian.png" alt="South Indian dosa with chutney and sambar">
+        <h3>Famous South Indian Cuisine</h3>
+        <p>Irresistible and rich flavors.</p>
+        <details>
+          <summary>View Recipe</summary>
+          <p><strong>Ingredients:</strong> Rice, urad dal, water, salt, oil, potato masala filling.</p>
+          <p><strong>Steps:</strong> Soak and grind rice and dal, ferment overnight. Spread batter thin on a hot griddle. Add potato filling, fold, and crisp until golden. Serve with chutney and sambar.</p>
+        </details>
+      </div>
+      <div class="recipe-card">
+        <img src="italian.png" alt="Classic Italian pasta on a wooden table">
+        <h3>Famous Italian Cuisine</h3>
+        <p>Yummy Italian blast!</p>
+        <details>
+          <summary>View Recipe</summary>
+          <p><strong>Ingredients:</strong> Pasta, olive oil, garlic, tomatoes, basil, parmesan, salt &amp; pepper.</p>
+          <p><strong>Steps:</strong> Boil pasta until al dente. Sauté garlic in olive oil, add tomatoes and simmer into a sauce. Toss pasta in the sauce, top with basil and parmesan.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUGGESTIONS PAGE -->
+<section id="suggestions">
+  <h2>Share Your Food Suggestions 🍕</h2>
+  <form id="suggestion-form">
+    <input type="text" id="suggest-name" placeholder="Your Name" required>
+    <textarea id="suggest-text" placeholder="Enter your food suggestion..." required></textarea>
+    <button type="submit">Submit Suggestion</button>
+  </form>
+  <p class="success-message" id="suggestion-success">✅ Your suggestion was submitted successfully!</p>
+</section>
+
+<!-- RECIPES PAGE -->
+<section id="recipes">
+  <h2>Popular Recipes 🍝</h2>
+  <div class="recipe-grid">
+    <div class="recipe-card">
+      <img src="pasta.png" alt="Creamy Alfredo pasta">
+      <h3>Cheesy Alfredo Pasta</h3>
+      <p>Rich, creamy, and irresistible.</p>
+      <details>
+        <summary>View Recipe</summary>
+        <p><strong>Ingredients:</strong> Fettuccine, butter, garlic, heavy cream, parmesan, salt &amp; pepper.</p>
+        <p><strong>Steps:</strong> Boil pasta. Sauté garlic in butter, add cream and simmer. Stir in parmesan until smooth. Toss with pasta and serve hot.</p>
+      </details>
+    </div>
+    <div class="recipe-card">
+      <img src="burger.png" alt="Double patty beef burger">
+      <h3>Classic Beef Burger</h3>
+      <p>Perfectly grilled and packed with flavor.</p>
+      <details>
+        <summary>View Recipe</summary>
+        <p><strong>Ingredients:</strong> Beef patty, burger bun, cheese, lettuce, tomato, onion, sauce.</p>
+        <p><strong>Steps:</strong> Season and grill the patty. Toast the bun. Layer lettuce, tomato, patty, cheese, and sauce. Serve warm.</p>
+      </details>
+    </div>
+    <div class="recipe-card">
+      <img src="sushi.png" alt="Assorted Japanese sushi rolls">
+      <h3>Japanese Sushi</h3>
+      <p>Fresh, delicate, and beautifully crafted.</p>
+      <details>
+        <summary>View Recipe</summary>
+        <p><strong>Ingredients:</strong> Sushi rice, rice vinegar, nori sheets, fish/veggies, soy sauce.</p>
+        <p><strong>Steps:</strong> Cook rice and mix with vinegar. Spread on nori, add filling, and roll tightly. Slice and serve with soy sauce.</p>
+      </details>
+    </div>
+    <div class="recipe-card">
+      <img src="tacos.png" alt="Mexican street tacos with toppings">
+      <h3>Mexican Street Tacos</h3>
+      <p>Bold, zesty, and full of spice.</p>
+      <details>
+        <summary>View Recipe</summary>
+        <p><strong>Ingredients:</strong> Corn tortillas, seasoned meat, onion, cilantro, lime, salsa.</p>
+        <p><strong>Steps:</strong> Cook and season the meat. Warm tortillas. Fill with meat, onion, and cilantro. Squeeze lime and top with salsa.</p>
+      </details>
+    </div>
+    <div class="recipe-card">
+      <img src="butter-chicken.png" alt="Indian butter chicken curry with naan">
+      <h3>Butter Chicken</h3>
+      <p>Creamy, smoky, and full-bodied flavor.</p>
+      <details>
+        <summary>View Recipe</summary>
+        <p><strong>Ingredients:</strong> Chicken, butter, tomato puree, cream, garam masala, garlic, ginger.</p>
+        <p><strong>Steps:</strong> Marinate and grill chicken. Simmer tomato puree with butter and spices. Add cream and chicken, cook until rich. Serve with naan.</p>
+      </details>
+    </div>
+    <div class="recipe-card">
+      <img src="pad-thai.png" alt="Thai pad thai noodles with peanuts and lime">
+      <h3>Pad Thai</h3>
+      <p>Sweet, tangy, and irresistibly savory.</p>
+      <details>
+        <summary>View Recipe</summary>
+        <p><strong>Ingredients:</strong> Rice noodles, egg, tofu/shrimp, bean sprouts, peanuts, tamarind sauce, lime.</p>
+        <p><strong>Steps:</strong> Soak noodles. Stir-fry egg and protein, add noodles and sauce. Toss with sprouts, top with peanuts and lime.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT PAGE -->
+<section id="contact">
+  <h2>Contact Us 📩</h2>
+  <div class="contact-info">
+    <h3>Email</h3>
+    <p>foodiescorner@gmail.com</p>
+    <h3>Phone</h3>
+    <p>+91 98765 43210</p>
+    <h3>Address</h3>
+    <p>Foodies Corner Café,<br>12, Tasty Street,<br>Chennai, Tamil Nadu - 600001</p>
+  </div>
+</section>
+
+<!-- SCRIPT -->
+<script>
+  const loginForm = document.getElementById('login-form');
+  const usernameInput = document.getElementById('username');
+  const passwordInput = document.getElementById('password');
+  const togglePassword = document.getElementById('toggle-password');
+
+  togglePassword.addEventListener('click', () => {
+    const isHidden = passwordInput.type === 'password';
+    passwordInput.type = isHidden ? 'text' : 'password';
+    togglePassword.textContent = isHidden ? '🙈' : '👁';
+    togglePassword.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+  });
+
+  // Basic RFC-5322-style email check
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Strong password: 8+ chars, at least one uppercase, one lowercase, one number, one special character
+  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+
+  function isValidEmail(value) {
+    return emailPattern.test(value.trim());
+  }
+
+  function isValidPassword(value) {
+    return passwordPattern.test(value);
+  }
+
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = usernameInput.value.trim();
+    const password = passwordInput.value;
+
+    if (isValidEmail(email) && isValidPassword(password)) {
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('main-header').style.display = 'block';
+      document.getElementById('main-nav').style.display = 'flex';
+      showPage('home');
+    } else {
+      alert('Invalid username or password');
+    }
+  });
+
+  function showPage(pageId, link) {
+    document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+
+    document.querySelectorAll('nav a[data-page]').forEach(a => a.classList.remove('active'));
+    const activeLink = link || document.querySelector(`nav a[data-page="${pageId}"]`);
+    if (activeLink) activeLink.classList.add('active');
+  }
+
+  function logout() {
+    document.getElementById('main-header').style.display = 'none';
+    document.getElementById('main-nav').style.display = 'none';
+    document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById('login-page').classList.add('active');
+    document.getElementById('login-page').style.display = 'flex';
+    loginForm.reset();
+    passwordInput.type = 'password';
+    togglePassword.textContent = '👁';
+  }
+
+  document.getElementById('suggestion-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    document.getElementById('suggestion-success').style.display = 'block';
+    e.target.reset();
+  });
+</script>
+
+</body>
+</html>
